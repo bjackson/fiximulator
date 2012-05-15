@@ -114,13 +114,11 @@ public class FIXimulatorApplication extends MessageCracker
     }
 	
     // IndicationofInterest handling
-    @Override
     public void onMessage( quickfix.fix42.IndicationofInterest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
 	
     // NewOrderSingle handling
-    @Override
     public void onMessage( quickfix.fix42.NewOrderSingle message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
@@ -142,7 +140,6 @@ public class FIXimulatorApplication extends MessageCracker
     }
 
     // OrderCancelRequest handling
-    @Override
     public void onMessage( quickfix.fix42.OrderCancelRequest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
@@ -163,8 +160,7 @@ public class FIXimulatorApplication extends MessageCracker
         }
     }
 
-    // OrderReplaceRequest handling
-    @Override
+    // OrderReplaceRequest handling    
     public void onMessage( quickfix.fix42.OrderCancelReplaceRequest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
@@ -186,18 +182,15 @@ public class FIXimulatorApplication extends MessageCracker
     }
 
     // OrderCancelReject handling
-    @Override
     public void onMessage( quickfix.fix42.OrderCancelReject message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
     
     // ExecutionReport handling
-    @Override
     public void onMessage( quickfix.fix42.ExecutionReport message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
     
-    @Override
     public void onMessage( quickfix.fix42.DontKnowTrade message,
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {

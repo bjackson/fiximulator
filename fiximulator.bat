@@ -1,4 +1,4 @@
 @echo off
 
 
-java -jar dist/FIXimulatorBR.jar
+java -jar dist/FIXimulator.jar
