@@ -17,7 +17,7 @@ import quickfix.field.OrderQty;
 import quickfix.field.OrigClOrdID;
 import quickfix.field.Price;
 import quickfix.field.SecurityID;
-import quickfix.field.IDSource;
+import quickfix.field.SecurityIDSource;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.field.TimeInForce;
@@ -37,7 +37,7 @@ public class Order implements Cloneable {
     private String origClientID = null;
     private String symbol = null;
     private String securityID = null;
-    private String idSource = null;
+    private String securityIDSource = null;
     private double quantity = 0.0;
     private double open = 0.0;
     private double executed = 0.0;
@@ -59,7 +59,7 @@ public class Order implements Cloneable {
         ID = generateID();
     }
     
-    public Order( quickfix.fix42.NewOrderSingle message ) {
+    public Order( quickfix.fix44.NewOrderSingle message ) {
         ID = generateID();
         
         // ClOrdID
@@ -121,16 +121,16 @@ public class Order implements Cloneable {
         
         // IDSource
         try {
-            IDSource idSrc = new IDSource();
+            SecurityIDSource idSrc = new SecurityIDSource();
             message.get(idSrc);
-            this.setIdSource(idSrc.getValue());
+            this.setSecurityIdSource(idSrc.getValue());
         } catch (FieldNotFound ex) {}    
         
         System.out.println("SecurityID: " + this.getSecurityID());
-        System.out.println("IDSource: " + this.getIdSource());
+        System.out.println("IDSource: " + this.getSecurityIdSource());
     }
     
-    public Order( quickfix.fix42.OrderCancelRequest message ) {
+    public Order( quickfix.fix44.OrderCancelRequest message ) {
         ID = generateID();
         
         // ClOrdID
@@ -186,15 +186,15 @@ public class Order implements Cloneable {
             this.setSecurityID(secID.getValue());
         } catch (FieldNotFound ex) {} 
         
-        // IDSource
+        // SecurityIDSource
         try {
-            IDSource idSrc = new IDSource();
+            SecurityIDSource idSrc = new SecurityIDSource();
             message.get(idSrc);
-            this.setIdSource(idSrc.getValue());
+            this.setSecurityIdSource(idSrc.getValue());
         } catch (FieldNotFound ex) {} 
     }
     
-    public Order( quickfix.fix42.OrderCancelReplaceRequest message ) {
+    public Order( quickfix.fix44.OrderCancelReplaceRequest message ) {
         ID = generateID();
         
         // ClOrdID
@@ -270,11 +270,11 @@ public class Order implements Cloneable {
             this.setSecurityID(secID.getValue());
         } catch (FieldNotFound ex) {} 
         
-        // IDSource
+        // SecurityIDSource
         try {
-            IDSource idSrc = new IDSource();
+            SecurityIDSource idSrc = new SecurityIDSource();
             message.get(idSrc);
-            this.setIdSource(idSrc.getValue());
+            this.setSecurityIdSource(idSrc.getValue());
         } catch (FieldNotFound ex) {}         
     }
     
@@ -434,12 +434,12 @@ public class Order implements Cloneable {
         this.tif = tif;
     }
 
-    public String getIdSource() {
-        return idSource;
+    public String getSecurityIdSource() {
+        return securityIDSource;
     }
 
-    public void setIdSource(String idSource) {
-        this.idSource = idSource;
+    public void setSecurityIdSource(String idSource) {
+        this.securityIDSource = idSource;
     }
 
     public String getSecurityID() {

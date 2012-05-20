@@ -379,7 +379,8 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
         executionDialogPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.####"))));
         executionDialogPrice.setText("0.0");
 
-        executionSharesLabel.setText("LastShares(32):");
+        executionSharesLabel.setText("LastQty(32):");
+        executionSharesLabel.setToolTipText("");
 
         executionPriceLabel.setText("LastPx(31):");
 
@@ -1732,7 +1733,7 @@ private void ioiDialogOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     dialogIOI.setQuantity(Integer.parseInt(ioiDialogShares.getText()));
     dialogIOI.setSymbol(ioiDialogSymbol.getText());
     dialogIOI.setSecurityID(ioiDialogSecurityID.getText());
-    dialogIOI.setIDSource(ioiDialogIDSource.getSelectedItem().toString());
+    dialogIOI.setSecurityIDSource(ioiDialogIDSource.getSelectedItem().toString());
     dialogIOI.setPrice(Double.parseDouble(ioiDialogPrice.getText()));
     dialogIOI.setNatural(ioiDialogNatural.getSelectedItem().toString());
     FIXimulator.getApplication().sendIOI(dialogIOI);
@@ -1769,7 +1770,7 @@ private void replaceIOIButtonActionPerformed(java.awt.event.ActionEvent evt) {//
         ioiDialogShares.setValue(dialogIOI.getQuantity());
         ioiDialogSymbol.setText(dialogIOI.getSymbol());
         ioiDialogSecurityID.setText(dialogIOI.getSecurityID());
-        String idSource = dialogIOI.getIDSource();
+        String idSource = dialogIOI.getSecurityIDSource();
         if (idSource.equals("CUSIP")) ioiDialogIDSource.setSelectedIndex(0);
         if (idSource.equals("SEDOL")) ioiDialogIDSource.setSelectedIndex(1);
         if (idSource.equals("RIC")) ioiDialogIDSource.setSelectedIndex(2);
@@ -1818,12 +1819,12 @@ private void executionBustButtonActionPerformed(java.awt.event.ActionEvent evt) 
         row = executionTable.convertRowIndexToModel(row);
         Execution execution = 
                 FIXimulator.getApplication().getExecutions().getExecution(row);
-        if ( execution.getExecType().equals("Fill") ||
-             execution.getExecType().equals("Partial fill")) {
+        if ( execution.getOrder().getStatus().equals("Fill") ||
+             execution.getOrder().getStatus().equals("Partial fill")) {
             FIXimulator.getApplication().bust(execution);
         } else { 
             System.out.println(
-                    "\"" + execution.getExecType() + "\" " + 
+                    "\"" + execution.getOrder().getStatus() + "\" " + 
                     "executions cannot be busted...");
         }
         
@@ -2048,7 +2049,7 @@ private void replaceRejectButtonActionPerformed(java.awt.event.ActionEvent evt) 
 }//GEN-LAST:event_replaceRejectButtonActionPerformed
 
 private void executionDialogOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executionDialogOKActionPerformed
-    dialogExecution.setLastShares(
+    dialogExecution.setLastQty(
             Integer.parseInt(executionDialogShares.getText()));
     dialogExecution.setLastPx(
             Double.parseDouble(executionDialogPrice.getText()));
@@ -2089,16 +2090,16 @@ private void executionCorrectButtonActionPerformed(java.awt.event.ActionEvent ev
         row = executionTable.convertRowIndexToModel(row);
         Execution execution = 
                 FIXimulator.getApplication().getExecutions().getExecution(row);
-        if ( execution.getExecType().equals("Fill") ||
-             execution.getExecType().equals("Partial fill")) {
+        if ( execution.getOrder().getStatus().equals("Fill") ||
+             execution.getOrder().getStatus().equals("Partial fill")) {
             dialogExecution = execution.clone();
-            executionDialogShares.setValue(execution.getLastShares());
+            executionDialogShares.setValue(execution.getLastQty());
             executionDialogPrice.setValue(execution.getLastPx());
             executionDialog.pack();
             executionDialog.setVisible(true);
         } else { 
             System.out.println(
-                    "\"" + execution.getExecType() + "\" " + 
+                    "\"" + execution.getOrder().getStatus() + "\" " + 
                     "executions cannot be corrected...");
         }
     }

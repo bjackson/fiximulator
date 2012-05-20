@@ -18,7 +18,7 @@ public class Execution implements Cloneable {
     private String refID = null;
     private char execType;
     private char execTranType;
-    private double lastShares = 0.0;
+    private double lastQty = 0.0;
     private double lastPx = 0.0;
     private double leavesQty = 0.0;
     private double cumQty = 0.0;
@@ -129,12 +129,12 @@ public class Execution implements Cloneable {
         this.lastPx = lastPx;
     }
 
-    public double getLastShares() {
-        return lastShares;
+    public double getLastQty() {
+        return lastQty;
     }
 
-    public void setLastShares(double lastShares) {
-        this.lastShares = lastShares;
+    public void setLastQty(double lastQty) {
+        this.lastQty = lastQty;
     }
 
     public double getLeavesQty() {

@@ -54,7 +54,7 @@ public class IOITableModel extends AbstractTableModel {
         if (column == 4) return ioi.getSymbol();
         if (column == 5) return ioi.getPrice();
         if (column == 6) return ioi.getSecurityID();
-        if (column == 7) return ioi.getIDSource();
+        if (column == 7) return ioi.getSecurityIDSource();
         if (column == 8) return ioi.getNatural();
         if (column == 9) return ioi.getRefID();
         return new Object();
