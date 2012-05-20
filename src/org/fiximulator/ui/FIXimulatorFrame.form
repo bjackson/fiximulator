@@ -384,7 +384,8 @@
         </Component>
         <Component class="javax.swing.JLabel" name="executionSharesLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="LastShares(32):"/>
+            <Property name="text" type="java.lang.String" value="LastQty(32):"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="executionPriceLabel">

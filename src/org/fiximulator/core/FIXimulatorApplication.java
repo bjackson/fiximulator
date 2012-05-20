@@ -33,37 +33,8 @@ import quickfix.SessionID;
 import quickfix.SessionNotFound;
 import quickfix.SessionSettings;
 import quickfix.UnsupportedMessageType;
-import quickfix.field.AvgPx;
-import quickfix.field.ClOrdID;
-import quickfix.field.CumQty;
-import quickfix.field.Currency;
-import quickfix.field.CxlRejResponseTo;
-import quickfix.field.ExecID;
-import quickfix.field.ExecRefID;
-import quickfix.field.ExecTransType;
-import quickfix.field.ExecType;
-import quickfix.field.IDSource;
-import quickfix.field.IOINaturalFlag;
-import quickfix.field.IOIRefID;
-import quickfix.field.IOIShares;
-import quickfix.field.IOITransType;
-import quickfix.field.IOIid;
-import quickfix.field.LastPx;
-import quickfix.field.LastShares;
-import quickfix.field.LeavesQty;
-import quickfix.field.OnBehalfOfCompID;
-import quickfix.field.OnBehalfOfSubID;
-import quickfix.field.OrdStatus;
-import quickfix.field.OrderID;
-import quickfix.field.OrderQty;
-import quickfix.field.OrigClOrdID;
-import quickfix.field.Price;
-import quickfix.field.SecurityDesc;
-import quickfix.field.SecurityID;
-import quickfix.field.Side;
-import quickfix.field.Symbol;
-import quickfix.field.ValidUntilTime;
-import quickfix.fix42.Message.Header;
+import quickfix.field.*;
+import quickfix.fix44.Message.Header;
 
 public class FIXimulatorApplication extends MessageCracker 
                                     implements Application {
@@ -114,12 +85,12 @@ public class FIXimulatorApplication extends MessageCracker
     }
 	
     // IndicationofInterest handling
-    public void onMessage( quickfix.fix42.IndicationofInterest message, 
+    public void onMessage( quickfix.fix44.IndicationOfInterest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
 	
     // NewOrderSingle handling
-    public void onMessage( quickfix.fix42.NewOrderSingle message, 
+    public void onMessage( quickfix.fix44.NewOrderSingle message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
         Order order = new Order( message );
@@ -140,7 +111,7 @@ public class FIXimulatorApplication extends MessageCracker
     }
 
     // OrderCancelRequest handling
-    public void onMessage( quickfix.fix42.OrderCancelRequest message, 
+    public void onMessage( quickfix.fix44.OrderCancelRequest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
         Order order = new Order( message );
@@ -161,7 +132,7 @@ public class FIXimulatorApplication extends MessageCracker
     }
 
     // OrderReplaceRequest handling    
-    public void onMessage( quickfix.fix42.OrderCancelReplaceRequest message, 
+    public void onMessage( quickfix.fix44.OrderCancelReplaceRequest message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
         Order order = new Order( message );
@@ -182,16 +153,16 @@ public class FIXimulatorApplication extends MessageCracker
     }
 
     // OrderCancelReject handling
-    public void onMessage( quickfix.fix42.OrderCancelReject message, 
+    public void onMessage( quickfix.fix44.OrderCancelReject message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
     
     // ExecutionReport handling
-    public void onMessage( quickfix.fix42.ExecutionReport message, 
+    public void onMessage( quickfix.fix44.ExecutionReport message, 
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {}
     
-    public void onMessage( quickfix.fix42.DontKnowTrade message,
+    public void onMessage( quickfix.fix44.DontKnowTrade message,
             SessionID sessionID )
     	throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
 
@@ -349,8 +320,8 @@ public class FIXimulatorApplication extends MessageCracker
         }
         
         // Construct OrderCancelReject message from required fields
-        quickfix.fix42.OrderCancelReject rejectMessage =
-                 new quickfix.fix42.OrderCancelReject(
+        quickfix.fix44.OrderCancelReject rejectMessage =
+                 new quickfix.fix44.OrderCancelReject(
                     orderID, 
                     clientID, 
                     origClientID, 
@@ -390,19 +361,19 @@ public class FIXimulatorApplication extends MessageCracker
     
     public void execute( Execution execution ){
         Order order = execution.getOrder();
-        double fillQty = execution.getLastShares();
+        double fillQty = execution.getLastQty();
         double fillPrice = execution.getLastPx();
         double open = order.getOpen();
         // partial fill
         if ( fillQty < open ) {
             order.setOpen( open - fillQty );
             order.setStatus(OrdStatus.PARTIALLY_FILLED);
-            execution.setExecType(ExecType.PARTIAL_FILL);  
+            execution.setExecType(ExecType.ORDER_STATUS);  
             // full or over execution
         } else {
             order.setOpen(0);
             order.setStatus(OrdStatus.FILLED);
-            execution.setExecType(ExecType.FILL);
+            execution.setExecType(ExecType.ORDER_STATUS);
         }
         double avgPx =(order.getAvgPx() * order.getExecuted()
                      + fillPrice * fillQty)
@@ -421,7 +392,7 @@ public class FIXimulatorApplication extends MessageCracker
     public void bust( Execution execution ){
         Execution bust = execution.clone();
         Order order = execution.getOrder();
-        double fillQty = execution.getLastShares();
+        double fillQty = execution.getLastQty();
         double fillPrice = execution.getLastPx();
         double executed = order.getExecuted();
         // partial fill
@@ -453,8 +424,8 @@ public class FIXimulatorApplication extends MessageCracker
         Order order = correction.getOrder();
         Execution original = executions.getExecution(correction.getRefID());
         
-        double fillQty = correction.getLastShares();
-        double oldQty = original.getLastShares();
+        double fillQty = correction.getLastQty();
+        double oldQty = original.getLastQty();
         
         double fillPrice = correction.getLastPx();
         double oldPrice = original.getLastPx();
@@ -546,16 +517,17 @@ public class FIXimulatorApplication extends MessageCracker
             side = new Side( Side.UNDISCLOSED );
 
         // IOIShares
-        IOIShares shares = new IOIShares( ioi.getQuantity().toString() );
+        IOIQty shares = new IOIQty( ioi.getQuantity().toString() );
 
         // Symbol
         Symbol symbol = new Symbol( ioi.getSymbol() );
 
         // Construct IOI from required fields
-        quickfix.fix42.IndicationofInterest fixIOI = 
-            new quickfix.fix42.IndicationofInterest(
-            ioiID, ioiType, symbol, side, shares);
+        quickfix.fix44.IndicationOfInterest fixIOI = 
+            new quickfix.fix44.IndicationOfInterest(
+            ioiID, ioiType, side, shares );
 
+        fixIOI.set(symbol);
         // *** Conditionally required fields ***
         // IOIRefID
         IOIRefID ioiRefID = null;
@@ -570,18 +542,18 @@ public class FIXimulatorApplication extends MessageCracker
         fixIOI.set( securityID );
 
         // IDSource
-        IDSource idSource = null;
-        if (ioi.getIDSource().equals("TICKER"))
-            idSource = new IDSource( IDSource.EXCHANGE_SYMBOL );
-        if (ioi.getIDSource().equals("RIC"))
-            idSource = new IDSource( IDSource.RIC_CODE );
-        if (ioi.getIDSource().equals("SEDOL"))
-            idSource = new IDSource( IDSource.SEDOL );
-        if (ioi.getIDSource().equals("CUSIP"))
-            idSource = new IDSource( IDSource.CUSIP );
-        if (ioi.getIDSource().equals("UNKOWN"))
-            idSource = new IDSource( "100" );
-        fixIOI.set( idSource );
+        SecurityIDSource idSource = null;
+        if (ioi.getSecurityIDSource().equals("TICKER"))
+            idSource = new SecurityIDSource( SecurityIDSource.EXCHANGE_SYMBOL );
+        if (ioi.getSecurityIDSource().equals("RIC"))
+            idSource = new SecurityIDSource( SecurityIDSource.RIC_CODE );
+        if (ioi.getSecurityIDSource().equals("SEDOL"))
+            idSource = new SecurityIDSource( SecurityIDSource.SEDOL );
+        if (ioi.getSecurityIDSource().equals("CUSIP"))
+            idSource = new SecurityIDSource( SecurityIDSource.CUSIP );
+        if (ioi.getSecurityIDSource().equals("UNKOWN"))
+            idSource = new SecurityIDSource( "100" );
+        fixIOI.set(idSource);
 
         // Price
         Price price = new Price( ioi.getPrice() );
@@ -630,8 +602,8 @@ public class FIXimulatorApplication extends MessageCracker
         ExecID execID = new ExecID(execution.getID());
         
         // ExecTransType (20)
-        ExecTransType execTransType = 
-                new ExecTransType(execution.getFIXExecTranType());
+      /*  ExecTransType execTransType = 
+                new ExecTransType(execution.getFIXExecTranType());*/
 
         // ExecType (150) Status of this report
         ExecType execType = new ExecType(execution.getFIXExecType());
@@ -656,18 +628,10 @@ public class FIXimulatorApplication extends MessageCracker
         AvgPx avgPx = new AvgPx(execution.getAvgPx());
         
         // Construct Execution Report from required fields
-        quickfix.fix42.ExecutionReport executionReport = 
-                new quickfix.fix42.ExecutionReport(
-                    orderID, 
-                    execID, 
-                    execTransType, 
-                    execType, 
-                    ordStatus, 
-                    symbol, 
-                    side, 
-                    leavesQty, 
-                    cumQty, 
-                    avgPx);
+        quickfix.fix44.ExecutionReport executionReport = 
+                new quickfix.fix44.ExecutionReport(orderID, execID, execType, 
+                ordStatus, side, leavesQty, cumQty, avgPx);
+        executionReport.set(symbol);        
     
         // *** Conditional fields ***
         if(execution.getRefID() != null) {
@@ -678,15 +642,15 @@ public class FIXimulatorApplication extends MessageCracker
         // *** Optional fields ***
         executionReport.set(new ClOrdID(execution.getOrder().getClientID()));
         executionReport.set(new OrderQty(execution.getOrder().getQuantity()));
-        executionReport.set(new LastShares(execution.getLastShares()));
+        executionReport.set(new LastQty(execution.getLastQty()));
         executionReport.set(new LastPx(execution.getLastPx()));
         System.out.println("Setting...");
         System.out.println("SecurityID: " + order.getSecurityID());
-        System.out.println("IDSource: " + order.getIdSource());
+        System.out.println("SecurityIDSource: " + order.getSecurityIdSource());
         if( order.getSecurityID() != null 
-            && order.getIdSource()!= null) {
+            && order.getSecurityIdSource()!= null) {
             executionReport.set(new SecurityID(order.getSecurityID()));
-            executionReport.set(new IDSource(order.getIdSource()));
+            executionReport.set(new SecurityIDSource(order.getSecurityIdSource()));
         }
         
         // *** Send message ***
@@ -807,13 +771,13 @@ public class FIXimulatorApplication extends MessageCracker
                 value = "<MISSING>";
             ioi.setSecurityID( value );
             
-            // IDSource
-            if ( securityIDvalue.equals("Ticker") ) ioi.setIDSource("TICKER");
-            if ( securityIDvalue.equals("RIC") ) ioi.setIDSource("RIC");
-            if ( securityIDvalue.equals("Sedol") ) ioi.setIDSource("SEDOL");
-            if ( securityIDvalue.equals("Cusip") ) ioi.setIDSource("CUSIP");
+            // SecurityIDSource
+            if ( securityIDvalue.equals("Ticker") ) ioi.setSecurityIDSource("TICKER");
+            if ( securityIDvalue.equals("RIC") ) ioi.setSecurityIDSource("RIC");
+            if ( securityIDvalue.equals("Sedol") ) ioi.setSecurityIDSource("SEDOL");
+            if ( securityIDvalue.equals("Cusip") ) ioi.setSecurityIDSource("CUSIP");
             if ( ioi.getSecurityID().equals("<MISSING>") ) 
-                ioi.setIDSource("UNKNOWN");
+                ioi.setSecurityIDSource("UNKNOWN");
 
             // Price
             int pricePrecision = 4;
@@ -961,7 +925,7 @@ public class FIXimulatorApplication extends MessageCracker
                         partial.setLeavesQty(order.getOpen());
                         partial.setCumQty(order.getQuantity()-order.getOpen());
                         partial.setAvgPx(thisAvg);
-                        partial.setLastShares(fillQty);
+                        partial.setLastQty(fillQty);
                         partial.setLastPx(fillPrice);
                         sendExecution(partial);
                     } else {
@@ -998,7 +962,7 @@ public class FIXimulatorApplication extends MessageCracker
                         partial.setLeavesQty(order.getOpen());
                         partial.setCumQty(order.getQuantity()-order.getOpen());
                         partial.setAvgPx(thisAvg);
-                        partial.setLastShares(fillQty);
+                        partial.setLastQty(fillQty);
                         partial.setLastPx(fillPrice);
                         sendExecution(partial);
                         break;

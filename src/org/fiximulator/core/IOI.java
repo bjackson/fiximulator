@@ -19,7 +19,7 @@ public class IOI implements Cloneable {
     private Integer quantity = 0;
     private String symbol = "";
     private String securityID = "";
-    private String iDSource = "";   //
+    private String securityIDSource = "";   //
     private double price = 0.0;
     private String natural = "";    // YES, NO
     
@@ -108,16 +108,16 @@ public class IOI implements Cloneable {
             this.securityID = securityID;
     }
     
-    public String getIDSource() {
-        return iDSource;
+    public String getSecurityIDSource() {
+        return securityIDSource;
     }
 
-    public void setIDSource(String iDSource) {
-        this.iDSource = "UNKNOWN";
-        if (iDSource.toUpperCase().startsWith("C")) this.iDSource = "CUSIP";
-        if (iDSource.toUpperCase().startsWith("S")) this.iDSource = "SEDOL";
-        if (iDSource.toUpperCase().startsWith("T")) this.iDSource = "TICKER";
-        if (iDSource.toUpperCase().startsWith("R")) this.iDSource = "RIC";
+    public void setSecurityIDSource(String iDSource) {
+        this.securityIDSource = "UNKNOWN";
+        if (iDSource.toUpperCase().startsWith("C")) this.securityIDSource = "CUSIP";
+        if (iDSource.toUpperCase().startsWith("S")) this.securityIDSource = "SEDOL";
+        if (iDSource.toUpperCase().startsWith("T")) this.securityIDSource = "TICKER";
+        if (iDSource.toUpperCase().startsWith("R")) this.securityIDSource = "RIC";
     }
     
     public String getSide() {
