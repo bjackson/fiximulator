@@ -465,16 +465,16 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
             .addComponent(messageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
         );
 
-        executorRunningLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/harvard/fas/zfeledy/fiximulator/ui/red.gif"))); // NOI18N
+        executorRunningLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/fiximulator/ui/red.gif"))); // NOI18N
         executorRunningLabel.setText("Executor status");
         FIXimulator.getApplication().addStatusCallbacks(clientConnectedLabel, ioiSenderRunningLabel, executorRunningLabel);
 
-        ioiSenderRunningLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/harvard/fas/zfeledy/fiximulator/ui/red.gif"))); // NOI18N
+        ioiSenderRunningLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/fiximulator/ui/red.gif"))); // NOI18N
         ioiSenderRunningLabel.setText("IOI sender status");
 
-        clientConnectedLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/harvard/fas/zfeledy/fiximulator/ui/red.gif"))); // NOI18N
+        clientConnectedLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/fiximulator/ui/red.gif"))); // NOI18N
         if (FIXimulator.getApplication().getConnectionStatus())
-        clientConnectedLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/harvard/fas/zfeledy/fiximulator/ui/green.gif")));
+        clientConnectedLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/fiximulator/ui/green.gif")));
         clientConnectedLabel.setText("Client connection status");
 
         javax.swing.GroupLayout statusBarPanelLayout = new javax.swing.GroupLayout(statusBarPanel);
@@ -529,7 +529,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
             messageDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(messageDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(messageDetailScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
+                .addComponent(messageDetailScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         autoIOIPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Automated IOI Sender"));
@@ -623,7 +623,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(autoIOIPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ioiSliderLabel)
-                    .addComponent(rateDisplayLable, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))
+                    .addComponent(rateDisplayLable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rateSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -840,7 +840,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
             ioiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ioiPanelLayout.createSequentialGroup()
                 .addComponent(manualIOIPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addContainerGap(262, Short.MAX_VALUE))
             .addGroup(ioiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ioiPanelLayout.createSequentialGroup()
                     .addGap(54, 54, 54)
@@ -936,7 +936,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(orderActionPanelLayout.createSequentialGroup()
-                        .addComponent(orderRejectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(orderRejectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(6, 6, 6)
                         .addComponent(dfdButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(orderActionPanelLayout.createSequentialGroup()
@@ -957,13 +957,13 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        orderActionPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {acknowledgeButton, orderRejectButton});
-
         orderActionPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {replaceAcceptButton, replacePendingButton, replaceRejectButton});
 
         orderActionPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelAcceptButton, cancelPendingButton, cancelRejectButton});
 
         orderActionPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, dfdButton});
+
+        orderActionPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {acknowledgeButton, orderRejectButton});
 
         orderActionPanelLayout.setVerticalGroup(
             orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -972,17 +972,16 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                     .addGroup(orderActionPanelLayout.createSequentialGroup()
                         .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cancelPendingButton)
-                            .addGroup(orderActionPanelLayout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(cancelAcceptButton))
                             .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cancelButton)
                                 .addComponent(acknowledgeButton))
                             .addGroup(orderActionPanelLayout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(orderRejectButton)
-                                    .addComponent(dfdButton))))
+                                .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cancelAcceptButton)
+                                    .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(orderRejectButton)
+                                        .addComponent(dfdButton)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(orderActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cancelRejectButton)
@@ -1048,7 +1047,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
         orderPanel.setLayout(orderPanelLayout);
         orderPanelLayout.setHorizontalGroup(
             orderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(orderScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+            .addComponent(orderScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(orderPanelLayout.createSequentialGroup()
                 .addComponent(orderActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1058,7 +1057,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
             .addGroup(orderPanelLayout.createSequentialGroup()
                 .addComponent(orderActionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(orderScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE))
+                .addComponent(orderScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Orders", orderPanel);
@@ -1146,7 +1145,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
         executionPanel.setLayout(executionPanelLayout);
         executionPanelLayout.setHorizontalGroup(
             executionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(executionActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+            .addComponent(executionActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(executionScrollPane, 0, 0, Short.MAX_VALUE)
         );
         executionPanelLayout.setVerticalGroup(
@@ -1154,7 +1153,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
             .addGroup(executionPanelLayout.createSequentialGroup()
                 .addComponent(executionActionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(executionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addComponent(executionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Executions", executionPanel);
@@ -1224,7 +1223,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(querySymbolLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(querySymbolText, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                        .addComponent(querySymbolText))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportActionPanelLayout.createSequentialGroup()
                         .addComponent(queryLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1499,7 +1498,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                         .addComponent(logToFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(logToDB))
-                    .addComponent(oboCompIDSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(oboCompIDSeparator1)
                     .addComponent(sendOnBehalfOfSubID)
                     .addGroup(appSettingsPanelLayout.createSequentialGroup()
                         .addGroup(appSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1509,7 +1508,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                         .addGroup(appSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cachedObjectsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pricePrecisionCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(oboCompIDSeparator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(oboCompIDSeparator, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sendOnBehalfOfCompID))
                 .addContainerGap())
         );
@@ -1536,7 +1535,7 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(oboCompIDSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(logToFileLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                .addComponent(logToFileLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(appSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logToFile)
@@ -1599,8 +1598,6 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
 
         mainMenuBar.add(fileMenu);
 
-        instrumentMenu.setLabel("Instruments");
-
         loadInstrumentMenuItem.setText("Load Instruments...");
         loadInstrumentMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1610,8 +1607,6 @@ public class FIXimulatorFrame extends javax.swing.JFrame {
         instrumentMenu.add(loadInstrumentMenuItem);
 
         mainMenuBar.add(instrumentMenu);
-
-        helpMenu.setLabel("Help");
 
         aboutMenuItem.setText("About...");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
