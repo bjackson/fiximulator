@@ -57,7 +57,7 @@ public class ExecutionTableModel extends AbstractTableModel {
         if (column == 1) return order.getClientID();
         if (column == 2) return order.getSide();
         if (column == 3) return order.getSymbol();
-        if (column == 4) return execution.getLastShares();
+        if (column == 4) return execution.getLastQty();
         if (column == 5) return execution.getLastPx();
         if (column == 6) return execution.getCumQty();
         if (column == 7) return execution.getAvgPx();
